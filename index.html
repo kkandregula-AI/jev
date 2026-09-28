@@ -27,7 +27,8 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-section,header{scroll-margin-top:64px}
+section,header{scroll-margin-top:calc(64px + env(safe-area-inset-top))}
+@media(max-width:640px){section,header{scroll-margin-top:calc(108px + env(safe-area-inset-top))}}
 body{background:var(--bg);color:var(--ink);font:400 16px/1.6 'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
 a{color:var(--gold)}
@@ -45,7 +46,7 @@ section{padding:64px 0;border-top:1px solid var(--line)}
 .tag i{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block}
 
 /* nav */
-nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{position:sticky;top:0;z-index:20;padding-top:env(safe-area-inset-top);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 nav .wrap{display:flex;align-items:center;gap:14px;height:56px}
 .brand{display:flex;align-items:center;gap:10px;font-family:'Cinzel';font-weight:700;letter-spacing:.08em;text-decoration:none;color:var(--ink)}
 .brand canvas{width:28px;height:28px;border-radius:7px}
@@ -181,6 +182,16 @@ tr:last-child td{border-bottom:none}
 footer{padding:40px 0 56px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--ink3)}
 footer .attr{font-family:'Cinzel';color:var(--gold);letter-spacing:.05em;font-size:.9rem;margin-bottom:6px}
 .install{display:none}
+@media(max-width:640px){
+ nav .wrap{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:0;gap:8px 10px}
+ .brand{flex:1}
+ .themebtn{order:2}
+ .navlinks{order:3;flex:0 0 calc(100% + 32px);max-width:calc(100% + 32px);margin:0 -16px;padding:2px 12px 10px;-webkit-overflow-scrolling:touch}
+ .navlinks a{font-size:.8rem;padding:8px 11px;border:1px solid var(--line);border-radius:20px}
+ .navlinks a.act{border-color:var(--gold)}
+ .bname{font-size:.9rem}
+ .hero{padding-top:40px}
+}
 .bname{white-space:nowrap;font-size:.92rem}
 @media(max-width:480px){.bname{font-size:.78rem;letter-spacing:.04em}}
 .grid3>*,.gate>*,.router>*,.cost>*,.cases>*,.cav>*,.src>*,.stats>*{min-width:0}
