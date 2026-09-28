@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Decision Atlas · Jev</title>
+<meta name="description" content="Interactive explainer: 20 agentic use cases of TypeSafe AI's Jev, a System One decision model.">
+<meta name="theme-color" content="#0a0a0b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0b;--bg2:#111113;--card:#16161a;--line:#26262c;--line2:#34343c;
+  --ink:#ece8df;--ink2:#a9a49a;--ink3:#6f6b64;
+  --gold:#d4b778;--gold2:#f0dcaa;--goldDim:rgba(212,183,120,.14);
+  --ok:#7fc79a;--warn:#e7b85c;--bad:#e27a6b;--blue:#8fb3e6;
+  --r:14px;
+}
+:root[data-theme="light"]{
+  --bg:#f6f3ec;--bg2:#efebe2;--card:#fffdf8;--line:#e2dccf;--line2:#d2cab9;
+  --ink:#1b1a17;--ink2:#57534b;--ink3:#8a857a;
+  --gold:#9a7a34;--gold2:#6f5620;--goldDim:rgba(154,122,52,.12);
+  --ok:#2f8a55;--warn:#a8741a;--bad:#b4473a;--blue:#3a67a8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+section,header{scroll-margin-top:64px}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+a{color:var(--gold)}
+.mono{font-family:'DM Mono',ui-monospace,monospace}
+h1,h2,h3{font-family:'Cinzel',serif;font-weight:700;letter-spacing:.02em}
+h2{font-size:clamp(1.4rem,3.4vw,2rem);margin-bottom:.4rem}
+h3{font-size:1.02rem;letter-spacing:.03em}
+.eyebrow{font:500 .72rem/1 'DM Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem;display:flex;align-items:center;gap:.6rem}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--gold)}
+.lede{color:var(--ink2);max-width:680px;margin-bottom:1.6rem}
+section{padding:64px 0;border-top:1px solid var(--line)}
+.tag{display:inline-flex;align-items:center;gap:6px;font:500 .64rem/1 'DM Mono',monospace;letter-spacing:.12em;padding:5px 8px;border-radius:6px;border:1px solid var(--line2);color:var(--ink2);text-transform:uppercase}
+.tag.sim{border-color:rgba(231,184,92,.45);color:var(--warn)}
+.tag.real{border-color:rgba(127,199,154,.45);color:var(--ok)}
+.tag i{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block}
+
+/* nav */
+nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:14px;height:56px}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Cinzel';font-weight:700;letter-spacing:.08em;text-decoration:none;color:var(--ink)}
+.brand canvas{width:28px;height:28px;border-radius:7px}
+.navlinks{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{font:500 .74rem 'DM Mono',ui-monospace,monospace;color:var(--ink2);text-decoration:none;padding:6px 9px;border-radius:7px;white-space:nowrap}
+.navlinks a.act{color:var(--gold);background:var(--goldDim)}
+.navlinks a:hover{color:var(--gold);background:var(--goldDim)}
+.themebtn{background:none;border:1px solid var(--line2);color:var(--ink2);border-radius:8px;width:34px;height:34px;cursor:pointer;flex:none}
+
+/* hero */
+.hero{padding:72px 0 56px;position:relative;border-top:none}
+.hero h1{font-size:clamp(2.6rem,9vw,5.4rem);line-height:1;color:var(--gold2);letter-spacing:.06em}
+.hero .sub{font-family:'Cinzel';font-size:clamp(1rem,2.6vw,1.35rem);color:var(--ink);margin:.6rem 0 1.2rem;letter-spacing:.05em}
+.hero p{color:var(--ink2);max-width:640px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:32px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.stat b{display:block;font:500 1.5rem/1.1 'DM Mono',ui-monospace,monospace;color:var(--gold2)}
+.stat span{font-size:.8rem;color:var(--ink2)}
+.heroart{position:absolute;right:0;top:40px;width:360px;height:300px;opacity:.9;pointer-events:none}
+@media(max-width:860px){.heroart{display:none}.stats{grid-template-columns:repeat(2,1fr)}}
+
+/* primitives */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:820px){.grid3{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.prim h3{color:var(--gold2);margin-bottom:.3rem}
+.prim p{font-size:.92rem;color:var(--ink2);margin-bottom:12px}
+pre{font:400 .74rem/1.55 'DM Mono',monospace;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto;color:var(--ink2)}
+pre .k{color:var(--gold)} pre .s{color:var(--ok)} pre .n{color:var(--blue)}
+.bars{margin-top:12px;display:grid;gap:6px}
+.barrow{display:grid;grid-template-columns:86px 1fr 42px;align-items:center;gap:8px;font:.72rem 'DM Mono',ui-monospace,monospace;color:var(--ink2)}
+.bartrack{height:8px;background:var(--bg2);border-radius:4px;overflow:hidden}
+.barfill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:4px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.note{font-size:.86rem;color:var(--ink2);margin-top:18px;padding:14px 16px;border-left:2px solid var(--gold);background:var(--goldDim);border-radius:0 10px 10px 0}
+
+/* race */
+.race{display:grid;gap:14px}
+.lane{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.lanehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px;flex-wrap:wrap}
+.lanehead b{font-family:'Cinzel';letter-spacing:.04em}
+.timer{font:500 1.1rem 'DM Mono',ui-monospace,monospace;color:var(--gold2)}
+.tokens{font:.8rem/1.6 'DM Mono',ui-monospace,monospace;color:var(--ink2);min-height:52px;word-break:break-word}
+.tokens .cur{background:var(--gold);color:var(--bg);padding:0 2px}
+.jevout{display:flex;gap:8px;flex-wrap:wrap;min-height:52px;align-items:center}
+.pill{font:500 .74rem 'DM Mono',ui-monospace,monospace;padding:6px 10px;border-radius:20px;border:1px solid var(--line2);opacity:0;transform:translateY(6px);transition:.35s}
+.pill.on{opacity:1;transform:none;border-color:var(--gold);color:var(--gold2);background:var(--goldDim)}
+.btn{font:500 .82rem 'DM Mono',ui-monospace,monospace;letter-spacing:.06em;background:var(--gold);color:#16130c;border:none;border-radius:10px;padding:11px 18px;cursor:pointer}
+.btn.ghost{background:none;color:var(--gold);border:1px solid var(--gold)}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* gate */
+.gate{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:820px){.gate{grid-template-columns:1fr}}
+input[type=range]{width:100%;accent-color:var(--gold)}
+.thval{font:500 2rem 'DM Mono',ui-monospace,monospace;color:var(--gold2)}
+.dec{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:.86rem}
+.dec:last-child{border-bottom:none}
+.dec code{font:.76rem 'DM Mono',ui-monospace,monospace;color:var(--ink)}
+.dec .p{font:.76rem 'DM Mono',ui-monospace,monospace;color:var(--ink2)}
+.verdict{font:500 .66rem 'DM Mono',ui-monospace,monospace;letter-spacing:.08em;padding:4px 8px;border-radius:6px;text-transform:uppercase;min-width:88px;text-align:center}
+.v-auto{background:rgba(127,199,154,.14);color:var(--ok)}
+.v-esc{background:rgba(231,184,92,.14);color:var(--warn)}
+.gsum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.gsum div{background:var(--bg2);border-radius:10px;padding:10px;text-align:center}
+.gsum b{display:block;font:500 1.2rem 'DM Mono',ui-monospace,monospace;color:var(--gold2)}
+.gsum span{font-size:.72rem;color:var(--ink2)}
+
+/* router */
+.router{display:grid;grid-template-columns:1fr 1.2fr;gap:14px}
+@media(max-width:820px){.router{grid-template-columns:1fr}}
+.reqs{display:grid;gap:8px}
+.req{text-align:left;background:var(--bg2);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:12px;font:inherit;font-size:.88rem;cursor:pointer;transition:.2s}
+.req:hover,.req.sel{border-color:var(--gold);background:var(--goldDim)}
+.req small{display:block;font:.66rem 'DM Mono',ui-monospace,monospace;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.flow svg{width:100%;height:auto;display:block}
+.flow .res{margin-top:10px;font-size:.88rem;color:var(--ink2);min-height:48px}
+
+/* atlas */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.tab{font:500 .74rem 'DM Mono',ui-monospace,monospace;padding:8px 12px;border-radius:20px;border:1px solid var(--line2);background:none;color:var(--ink2);cursor:pointer}
+.tab.on{background:var(--gold);color:#16130c;border-color:var(--gold)}
+.search{width:100%;background:var(--bg2);border:1px solid var(--line2);border-radius:10px;padding:11px 14px;color:var(--ink);font:inherit;margin-bottom:14px}
+.cases{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:720px){.cases{grid-template-columns:1fr}}
+.case{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;cursor:pointer;transition:.2s;position:relative}
+.case:hover{border-color:var(--line2)}
+.case.open{border-color:var(--gold)}
+.case .num{font:500 .7rem 'DM Mono',ui-monospace,monospace;color:var(--gold);letter-spacing:.1em}
+.case h3{margin:4px 0 6px;font-size:.98rem}
+.case .cat{font:.64rem 'DM Mono',ui-monospace,monospace;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em}
+.case p{font-size:.88rem;color:var(--ink2)}
+.case .more{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line2);font-size:.84rem}
+.case.open .more{display:block}
+.case .prims{display:flex;gap:6px;margin-top:8px}
+.case .prims span{font:.62rem 'DM Mono',ui-monospace,monospace;padding:3px 7px;border-radius:5px;background:var(--bg2);color:var(--ink2)}
+.case .metric{display:inline-block;margin-top:8px;font:500 .74rem 'DM Mono',ui-monospace,monospace;color:var(--gold2)}
+
+/* cost */
+.cost{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:820px){.cost{grid-template-columns:1fr}}
+.field{margin-bottom:16px}
+.field label{display:flex;justify-content:space-between;font-size:.84rem;color:var(--ink2);margin-bottom:6px}
+.field label b{font:500 .84rem 'DM Mono',ui-monospace,monospace;color:var(--gold2)}
+.costout{display:grid;gap:10px}
+.cbox{background:var(--bg2);border-radius:12px;padding:14px}
+.cbox span{font-size:.78rem;color:var(--ink2)}
+.cbox b{display:block;font:500 1.5rem 'DM Mono',ui-monospace,monospace}
+.cbox.j b{color:var(--gold2)}
+.saving{font-family:'Cinzel';font-size:1.1rem;color:var(--ok)}
+
+/* table */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:.84rem}
+th,td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 .7rem 'DM Mono',ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:var(--bg2)}
+td:first-child{color:var(--ink2);font-weight:500}
+tr:last-child td{border-bottom:none}
+.hl{background:var(--goldDim)}
+
+/* caveats & sources */
+.cav{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:720px){.cav{grid-template-columns:1fr}}
+.cav .card h3{color:var(--warn);font-size:.92rem;margin-bottom:6px}
+.cav .card p{font-size:.88rem;color:var(--ink2)}
+.src{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(max-width:720px){.src{grid-template-columns:1fr}}
+.src a{display:block;padding:12px 14px;border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);font-size:.86rem;background:var(--card)}
+.src a small{display:block;font:.64rem 'DM Mono',ui-monospace,monospace;color:var(--gold);letter-spacing:.1em;text-transform:uppercase}
+.src a:hover{border-color:var(--gold)}
+.featured{border:1px solid var(--gold)!important;background:var(--goldDim)!important}
+footer{padding:40px 0 56px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--ink3)}
+footer .attr{font-family:'Cinzel';color:var(--gold);letter-spacing:.05em;font-size:.9rem;margin-bottom:6px}
+.install{display:none}
+.bname{white-space:nowrap;font-size:.92rem}
+@media(max-width:480px){.bname{font-size:.78rem;letter-spacing:.04em}}
+.grid3>*,.gate>*,.router>*,.cost>*,.cases>*,.cav>*,.src>*,.stats>*{min-width:0}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><canvas id="logo" width="56" height="56"></canvas><span class="bname">Decision Atlas</span></a>
+    <div class="navlinks">
+      <a href="#primitives">Primitives</a>
+      <a href="#race">Race</a>
+      <a href="#gate">Gate</a>
+      <a href="#routing">Routing</a>
+      <a href="#atlas">20 Uses</a>
+      <a href="#cost">Cost</a>
+      <a href="#compare">Compare</a>
+      <a href="#sources">Sources</a>
+    </div>
+    <button class="themebtn" id="themeBtn" aria-label="Toggle theme">◐</button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <canvas class="heroart" id="heroArt" width="720" height="600"></canvas>
+    <div class="eyebrow">Krishnamurthy Kandregula Innovation Lab · Explainer</div>
+    <h1>Decision<br>Atlas</h1>
+    <div class="sub">20 agentic use cases of TypeSafe AI’s Jev</div>
+    <p>TypeSafe AI's <b>Jev</b> is a <i>System One</i> model. It doesn't chat or write code. You hand it an agent's state and a set of typed questions, and it returns decisions with calibrated probabilities — so the thousands of small judgments inside an agent loop stop costing a full LLM call each.</p>
+    <div class="row" style="margin-top:22px">
+      <a class="btn" href="#atlas" style="text-decoration:none">Browse the 20 use cases</a>
+      <button class="btn ghost install" id="installBtn">Install app</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>$0.042</b><span>per M input tokens · output free</span></div>
+      <div class="stat"><b>70–500<small style="font-size:.9rem">ms</small></b><span>vendor-stated latency</span></div>
+      <div class="stat"><b>255</b><span>max options in one Choice</span></div>
+      <div class="stat"><b>20</b><span>agentic use cases mapped</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="primitives">
+  <div class="wrap">
+    <div class="eyebrow">01 · How Jev works</div>
+    <h2>Three typed primitives</h2>
+    <p class="lede">Each call sends one <span class="mono">state</span> (text or JSON) plus a dictionary of questions. All questions are answered in parallel against the same state, in a single request.</p>
+    <div class="grid3">
+      <div class="card prim">
+        <h3>CHOICE</h3>
+        <p>Pick one option from a list. Returns a probability for every option, plus confidence.</p>
+<pre>{<span class="k">"dept"</span>: {<span class="k">"type"</span>:<span class="s">"choice"</span>,
+  <span class="k">"options"</span>:[<span class="s">"billing"</span>,<span class="s">"tech"</span>,<span class="s">"sales"</span>]}}</pre>
+        <div class="bars" data-bars="billing:0.81,tech:0.14,sales:0.05"></div>
+      </div>
+      <div class="card prim">
+        <h3>SCORE</h3>
+        <p>Rate the state on ordered rubric levels. Returns probabilities per level, plus confidence.</p>
+<pre>{<span class="k">"difficulty"</span>: {<span class="k">"type"</span>:<span class="s">"score"</span>,
+  <span class="k">"levels"</span>:[<span class="s">"trivial"</span>,<span class="s">"medium"</span>,<span class="s">"hard"</span>]}}</pre>
+        <div class="bars" data-bars="trivial:0.08,medium:0.27,hard:0.65"></div>
+      </div>
+      <div class="card prim">
+        <h3>NOUL</h3>
+        <p>Probability (0 to 1) that a statement about the state is true.</p>
+<pre>{<span class="k">"irreversible"</span>: {<span class="k">"type"</span>:<span class="s">"noul"</span>,
+  <span class="k">"statement"</span>:<span class="s">"This command destroys data"</span>}}</pre>
+        <div class="bars" data-bars="true:0.97,false:0.03"></div>
+      </div>
+    </div>
+    <div class="note">Trained with <b>RLCD</b> (Reinforcement Learning for Calibrated Decisions), so higher confidence should track higher accuracy. The payoff: <b>your code</b>, not the model, decides what happens at each probability. <span class="tag sim" style="margin-left:6px"><i></i>Illustrative bars</span></div>
+  </div>
+</section>
+
+<section id="race">
+  <div class="wrap">
+    <div class="eyebrow">02 · One pass vs token stream</div>
+    <h2>Why it's fast</h2>
+    <p class="lede">An LLM has to generate its answer token by token, then you parse it. Jev returns the typed decision in one forward pass. Timings below replay OpenRouter's measured medians on its Banking77 test.</p>
+    <div class="race">
+      <div class="lane">
+        <div class="lanehead"><b>Generative LLM</b><span class="row"><span class="tag">2,266 ms median</span><span class="timer" id="tLLM">0 ms</span></span></div>
+        <div class="tokens" id="llmTokens"></div>
+      </div>
+      <div class="lane">
+        <div class="lanehead"><b>Jev · System One</b><span class="row"><span class="tag">175 ms median</span><span class="timer" id="tJev">0 ms</span></span></div>
+        <div class="jevout" id="jevOut">
+          <span class="pill">intent = card_lost · p 0.91</span>
+          <span class="pill">urgency = high · p 0.84</span>
+          <span class="pill">escalate? p 0.12</span>
+        </div>
+      </div>
+      <div class="row"><button class="btn" id="raceBtn">▶ Run the race</button><span class="tag sim"><i></i>Simulated replay of real medians</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="gate">
+  <div class="wrap">
+    <div class="eyebrow">03 · Confidence gating</div>
+    <h2>Code draws the line</h2>
+    <p class="lede">Every Jev answer carries a probability, so you pick a threshold. Above it, the agent acts automatically; below it, the call goes to a stronger model or a human. This is how the auto-approve and risk-gating hooks work.</p>
+    <div class="gate">
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <span style="color:var(--ink2);font-size:.86rem">Auto-approve when p(read-only) ≥</span>
+          <span class="thval" id="thVal">0.95</span>
+        </div>
+        <input type="range" id="th" min="0.5" max="0.99" step="0.01" value="0.95">
+        <div class="gsum">
+          <div><b id="gAuto">0</b><span>auto-approved</span></div>
+          <div><b id="gEsc">0</b><span>escalated</span></div>
+          <div><b id="gRisk" style="color:var(--bad)">0</b><span>risky slipped</span></div>
+        </div>
+        <div class="note" style="margin-top:14px">The jev-auto-approve hook uses <b>p ≥ 0.95</b> and, in its published calibration, approved 0 of 8 state-changing commands. Drop the slider and watch risky commands slip through.</div>
+      </div>
+      <div class="card" id="decList"></div>
+    </div>
+    <div style="margin-top:10px"><span class="tag sim"><i></i>Sample commands &amp; probabilities are illustrative</span></div>
+  </div>
+</section>
+
+<section id="routing">
+  <div class="wrap">
+    <div class="eyebrow">04 · Spotlight · Routing &amp; orchestration</div>
+    <h2>The router in the loop</h2>
+    <p class="lede">Pick a request. One Jev call scores it, and deterministic code sends it to the right place — the four routing patterns in a single picture.</p>
+    <div class="router">
+      <div class="reqs" id="reqs"></div>
+      <div class="card flow">
+        <svg viewBox="0 0 440 300" id="flowSvg" role="img" aria-label="Routing flow diagram"></svg>
+        <div class="res" id="flowRes">Choose a request on the left.</div>
+      </div>
+    </div>
+    <div style="margin-top:10px"><span class="tag sim"><i></i>Scores simulated · patterns from TypeSafe cookbooks</span></div>
+  </div>
+</section>
+
+<section id="atlas">
+  <div class="wrap">
+    <div class="eyebrow">05 · The atlas</div>
+    <h2>20 agentic use cases</h2>
+    <p class="lede">Grouped the way the source article groups them. Tap any card for the project, the primitive it leans on, and a link.</p>
+    <input class="search" id="q" placeholder="Search: guardrail, browser, rerank, Claude Code…">
+    <div class="tabs" id="tabs"></div>
+    <div class="cases" id="cases"></div>
+  </div>
+</section>
+
+<section id="cost">
+  <div class="wrap">
+    <div class="eyebrow">06 · Economics</div>
+    <h2>What the decisions cost</h2>
+    <p class="lede">OpenRouter's head-to-head priced 1,000 classification requests at <b>$0.11 on Jev</b> vs <b>$2.42 on Claude Opus 5</b>. Scale that to your agent's decision volume.</p>
+    <div class="cost">
+      <div class="card">
+        <div class="field"><label>Agent decisions per day <b id="dVal">20,000</b></label><input type="range" id="dRange" min="1000" max="500000" step="1000" value="20000"></div>
+        <div class="field"><label>Share routed to Jev <b id="sVal">80%</b></label><input type="range" id="sRange" min="0" max="100" step="5" value="80"></div>
+        <p style="font-size:.8rem;color:var(--ink3)">Assumes the non-Jev share stays on the LLM. Per-request figures come from one benchmark; your prompts and token counts will differ.</p>
+      </div>
+      <div class="costout">
+        <div class="cbox"><span>All decisions on LLM · per month</span><b id="cLLM">—</b></div>
+        <div class="cbox j"><span>Hybrid with Jev · per month</span><b id="cMix">—</b></div>
+        <div class="cbox"><span>Monthly saving</span><div class="saving" id="cSave">—</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <div class="eyebrow">07 · Landscape</div>
+    <h2>Jev vs closest alternatives</h2>
+    <p class="lede">Open-model numbers are self-reported on each project's own harness — directional only. OpenRouter's Banking77 test is the cleanest comparison.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th></th><th>Jev 1.13</th><th>Laya (open)</th><th>kev (open)</th><th>Claude Opus 5</th></tr></thead>
+        <tbody>
+          <tr><td>Type</td><td class="hl">System One decision model</td><td>Encoder (ModernBERT-large)</td><td>LoRA + readout on Qwen2.5-0.5B</td><td>Generative LLM</td></tr>
+          <tr><td>Weights</td><td class="hl">Closed, hosted</td><td>Apache 2.0 · 421M / 322M</td><td>Apache-2.0 (Qwen base licence)</td><td>Closed, hosted</td></tr>
+          <tr><td>Choice/Score/Noul</td><td class="hl">Native</td><td>Yes</td><td>Yes</td><td>Via structured prompting</td></tr>
+          <tr><td>Max options</td><td class="hl">255</td><td>Degrades past 50</td><td>255</td><td>n/a</td></tr>
+          <tr><td>Latency</td><td class="hl">175 ms median (OpenRouter)</td><td>32.8 ms local (self-reported)</td><td>~160 ms, 6 Qs local</td><td>2,266 ms median</td></tr>
+          <tr><td>Banking77</td><td class="hl">81.0%</td><td>Not comparable</td><td>0.860 (own set)</td><td>84.4%</td></tr>
+          <tr><td>Price</td><td class="hl">$0.042/MTok in, output free</td><td>Free, self-host</td><td>Free, self-host</td><td>$2.42 / 1k req (vs $0.11 Jev)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">Net: on Banking77 Jev scored <b>81.0% vs 84.4%</b> for Claude Opus 5 (a few points less accurate), about <b>13× faster</b> at the median, and roughly <b>1/22</b> the cost. It sits beside an LLM — the LLM plans and writes, Jev handles bounded decisions.</div>
+  </div>
+</section>
+
+<section id="caveats">
+  <div class="wrap">
+    <div class="eyebrow">08 · Read before you ship</div>
+    <h2>Honest limits</h2>
+    <div class="cav" style="margin-top:18px">
+      <div class="card"><h3>Schema-safe ≠ correct</h3><p>Typed output removes parse errors, not wrong answers. Calibrate thresholds on your own traffic before trusting auto-actions.</p></div>
+      <div class="card"><h3>Headline speed-ups are vendor evals</h3><p>The 193.6× faster / 444.6× cheaper figures come from TypeSafe's own workflow evals, which it says sit at the high end of real-world gains.</p></div>
+      <div class="card"><h3>Bounded questions only</h3><p>Jev answers closed-set questions. Anything that needs planning, writing or open-ended reasoning stays with the LLM.</p></div>
+      <div class="card"><h3>Hosted, not local</h3><p>Jev's weights are closed. For on-prem, open projects like Laya and kev implement the same /v1/systemone interface.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="sources">
+  <div class="wrap">
+    <div class="eyebrow">09 · Resource reference</div>
+    <h2>Sources</h2>
+    <div class="src" style="margin-top:18px">
+      <a class="featured" href="https://www.marktechpost.com/2026/09/27/20-agentic-use-cases-of-typesafe-ais-jev/" target="_blank" rel="noopener"><small>News · MarkTechPost · 27 Sep 2026</small>20 Agentic Use Cases of TypeSafe AI's Jev — Asif Razzaq</a>
+      <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev" target="_blank" rel="noopener"><small>Launch post · TypeSafe</small>Introducing System One models and Jev</a>
+      <a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener"><small>Docs · TypeSafe</small>Choice, Score &amp; Noul primitives</a>
+      <a href="https://evals.typesafe.ai/" target="_blank" rel="noopener"><small>Evals · TypeSafe</small>Workflow evals (vendor)</a>
+      <a href="https://openrouter.ai/blog/insights/jev-vs-claude-opus-5-classification/" target="_blank" rel="noopener"><small>Benchmark · OpenRouter</small>Jev vs Claude Opus 5 on Banking77</a>
+      <a href="https://docs.langchain.com/oss/python/integrations/providers/typesafe" target="_blank" rel="noopener"><small>Integration · LangChain</small>ModelRouter &amp; AutoMode middleware</a>
+      <a href="https://openrouter.ai/typesafe/jev-1.13" target="_blank" rel="noopener"><small>Deploy · OpenRouter</small>typesafe/jev-1.13</a>
+      <a href="https://vercel.com/ai-gateway/models/jev" target="_blank" rel="noopener"><small>Deploy · Vercel AI Gateway</small>typesafe-ai/jev</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="attr">Designed &amp; Architected by Krishnamurthy Kandregula · Made by Claude</div>
+  <div>Krishnamurthy Kandregula Innovation Lab · Hyderabad · Educational explainer; figures as reported by the linked sources, Sep 2026. Simulations are labelled.</div>
+</footer>
+
+<script>
+/* ---------- data ---------- */
+const CATS=[
+ {id:'route',name:'Routing & orchestration'},
+ {id:'safe',name:'Safety & guardrails'},
+ {id:'ret',name:'Retrieval & grounding'},
+ {id:'ctl',name:'Computer, browser & real-time'},
+ {id:'qual',name:'Agent quality & memory'}];
+const CASES=[
+ {c:'route',t:'Model routing',d:'Score how hard a request is, then send it to a fast or a strong model.',m:'Per-turn routing for Claude Code & Codex',p:['Score'],who:'LangChain ModelRouterMiddleware · jev-router',u:'https://github.com/gargpratyush/jev-router'},
+ {c:'route',t:'Skill selection',d:'Pick at most one skill from Nous Research\'s 182-skill Hermes catalog.',m:'182 skills → 1, in 2 requests',p:['Choice'],who:'TypeSafe skill-suggestion cookbook',u:'https://docs.typesafe.ai/cookbooks/skill_suggestion'},
+ {c:'route',t:'Typed function calling',d:'Turn plain-English trading requests into a function name plus closed-set arguments, only acting when confident.',m:'Confidence-gated calls',p:['Choice'],who:'TypeSafe function-calling cookbook',u:'https://docs.typesafe.ai/cookbooks/function_calling'},
+ {c:'route',t:'Ticket triage & intent routing',d:'One call gives department, frustration and urgency; code then routes to rules, a specialist LLM or a person.',m:'3 answers · 1 call',p:['Choice','Score'],who:'TypeSafe intent-routing pattern',u:'https://docs.typesafe.ai/patterns/intent-routing'},
+ {c:'safe',t:'Tool-call risk gating',d:'Asks whether a pending bash, write or edit is irreversible or off-task — the same db:reset is fine after "reset the database" and risky after "add a column".',m:'Context-aware, not keyword-based',p:['Noul'],who:'pi-warden · LangChain AutoModeMiddleware',u:'https://github.com/DevMortimer/pi-warden'},
+ {c:'safe',t:'Read-only auto-approval',d:'A Claude Code hook that approves a command automatically only when Jev is very sure it changes nothing.',m:'p ≥ 0.95 · 0 of 8 writes approved',p:['Noul'],who:'jev-auto-approve',u:'https://github.com/BasmaAbouzied0/jev-auto-approve'},
+ {c:'safe',t:'Secret-leak guard',d:'Sends masked strings to Jev to decide whether they are credentials before they leave the machine.',m:'6/6 secrets blocked · 0/6 benign',p:['Noul'],who:'jev-secret-guard',u:'https://github.com/BasmaAbouzied0/jev-secret-guard'},
+ {c:'safe',t:'Prompt-injection screening',d:'Embedding similarity ranked a planted injection as the top passage; Jev flagged it and it was dropped.',m:'Cosine 0.584 (ranked #1) → Jev 0.99 (dropped)',p:['Noul'],who:'TypeSafe RAG-passages cookbook',u:'https://docs.typesafe.ai/cookbooks/classifying_rag_passages'},
+ {c:'safe',t:'LLM input & output guardrails',d:'Threshold hazard probabilities to pass, review, block or reroute every message in and out.',m:'4-way policy from probabilities',p:['Noul','Choice'],who:'TypeSafe guardrails cookbook',u:'https://docs.typesafe.ai/cookbooks/llm_guardrails'},
+ {c:'ret',t:'Reranking',d:'Re-order retrieved passages by relevance on legal queries.',m:'Top-1 5%→18% · Top-10 38%→62% (40 CLERC queries)',p:['Score'],who:'TypeSafe rerank cookbook',u:'https://docs.typesafe.ai/cookbooks/rerank_typesafe'},
+ {c:'ret',t:'Citation verification',d:'One Choice decides whether a source section supports, contradicts, or is silent on a claim.',m:'supports / contradicts / silent',p:['Choice'],who:'TypeSafe citation-check cookbook',u:'https://docs.typesafe.ai/cookbooks/citation_check'},
+ {c:'ctl',t:'Browser agents',d:'Pick the operation and the DOM element in a single request.',m:'Google Flights search ≈ 7.1 s',p:['Choice'],who:'Browser Use · Jev Ultrafast',u:'https://github.com/browser-use/jev-ultrafast'},
+ {c:'ctl',t:'Desktop computer use',d:'OCR the macOS screen, then let Jev classify the next action.',m:'≈ $0.0002 per step',p:['Choice'],who:'typesafe-computer-use',u:'https://github.com/awlevin/typesafe-computer-use'},
+ {c:'ctl',t:'Mobile agents',d:'Decide each Android tap from the current screen state.',m:'Uber payment screen · ≈ 21 s, 9 actions',p:['Choice'],who:'Mobile Jev (droidrun)',u:'https://github.com/droidrun/mobile-jev'},
+ {c:'ctl',t:'Real-time game agents',d:'Play Doom from structured game state at interactive speed.',m:'≈ 10 queries/s · ≈ $7/hour',p:['Choice'],who:'TypeSafe Doom demo',u:'https://typesafe.ai/blog/introducing-system-one-models-and-jev'},
+ {c:'qual',t:'Loop stagnation detection',d:'Jev judges the trajectory; code turns that into CONTINUE, WARN, REPLAN or HALT.',m:'4 control signals',p:['Score'],who:'ProgressGate',u:'https://github.com/AshutoshVJTI/progressgate'},
+ {c:'qual',t:'"Done" claim verification',d:'Check the transcript for real evidence before believing a Claude Code agent says it\'s finished.',m:'Evidence before trust',p:['Noul'],who:'jev-belay',u:'https://github.com/valentynkit/jev-belay'},
+ {c:'qual',t:'Context compaction',d:'Score each tool call and drop the stale ones instead of summarising the whole context.',m:'Drop, don\'t summarise',p:['Score'],who:'fast-jev-compaction',u:'https://github.com/tamaratran/fast-jev-compaction'},
+ {c:'qual',t:'Trace mining for memory',d:'Find which runs across Claude Code, Codex, Cursor and OpenCode are worth turning into reusable skills.',m:'Runs → skills',p:['Noul','Score'],who:'Beacon · Asymptote Labs',u:'https://github.com/Asymptote-Labs/agent-beacon'},
+ {c:'qual',t:'Semantic linting',d:'Flag team-rule violations at edit time for Claude Code and Codex.',m:'Rules checked at edit time',p:['Noul'],who:'jev-lint',u:'https://github.com/ckorhonen/jev-lint'}
+];
+
+/* ---------- theme ---------- */
+const root=document.documentElement;
+try{const t=localStorage.getItem('decision-atlas-theme');if(t)root.dataset.theme=t;}catch(e){}
+document.getElementById('themeBtn').onclick=()=>{
+  const n=root.dataset.theme==='light'?'dark':'light';root.dataset.theme=n;
+  try{localStorage.setItem('decision-atlas-theme',n)}catch(e){}
+};
+
+/* ---------- canvas icon ---------- */
+function drawIcon(cv,s){
+  const x=cv.getContext('2d');cv.width=cv.height=s;
+  x.fillStyle='#0a0a0b';x.fillRect(0,0,s,s);
+  x.strokeStyle='#d4b778';x.lineWidth=s*.06;x.lineCap='round';
+  const cx=s*.28,cy=s*.5;
+  [[.8,.24],[.8,.5],[.8,.76]].forEach(([ex,ey],i)=>{
+    x.globalAlpha=i===1?1:.35;x.beginPath();x.moveTo(cx,cy);
+    x.bezierCurveTo(s*.5,cy,s*.55,s*ey,s*ex,s*ey);x.stroke();
+  });
+  x.globalAlpha=1;x.fillStyle='#f0dcaa';
+  x.beginPath();x.arc(cx,cy,s*.09,0,7);x.fill();
+  x.beginPath();x.arc(s*.8,s*.5,s*.07,0,7);x.fill();
+}
+drawIcon(document.getElementById('logo'),56);
+
+/* ---------- PWA: manifest + SW via blob ---------- */
+(function(){
+  try{
+    const c=document.createElement('canvas');drawIcon(c,512);
+    const icon=c.toDataURL('image/png');
+    const man={name:'Decision Atlas · 20 Agentic Use Cases of Jev',short_name:'Decision Atlas',start_url:'.',display:'standalone',background_color:'#0a0a0b',theme_color:'#0a0a0b',icons:[{src:icon,sizes:'512x512',type:'image/png',purpose:'any maskable'}]};
+    const l=document.createElement('link');l.rel='manifest';
+    l.href=URL.createObjectURL(new Blob([JSON.stringify(man)],{type:'application/manifest+json'}));
+    document.head.appendChild(l);
+    const a=document.createElement('link');a.rel='apple-touch-icon';a.href=icon;document.head.appendChild(a);
+  }catch(e){}
+  if('serviceWorker' in navigator){
+    const sw=`const C='decision-atlas-v1';self.addEventListener('install',e=>{self.skipWaiting()});
+self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.open(C).then(c=>c.match(e.request).then(r=>{const f=fetch(e.request).then(n=>{if(n&&n.status===200)c.put(e.request,n.clone());return n}).catch(()=>r);return r||f})))});`;
+    // try same-origin sw.js first (Vercel/GitHub Pages), then blob
+    navigator.serviceWorker.register('sw.js').catch(()=>{
+      try{navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'text/javascript'}))).catch(()=>{})}catch(e){}
+    });
+  }
+  let dp;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;const b=document.getElementById('installBtn');b.style.display='inline-block';b.onclick=()=>{dp.prompt();b.style.display='none'}});
+})();
+
+/* ---------- hero art ---------- */
+function drawHero(){
+  const cv=document.getElementById('heroArt');if(!cv)return;const x=cv.getContext('2d');
+  const W=cv.width,H=cv.height;x.clearRect(0,0,W,H);
+  const light=root.dataset.theme==='light';const g=light?'#9a7a34':'#d4b778';
+  const t=performance.now()/1000;
+  const src=[80,H/2];
+  const outs=[.12,.3,.5,.7,.88].map(f=>[W-70,H*f]);
+  outs.forEach(([ex,ey],i)=>{
+    const p=.5+.5*Math.sin(t*1.2+i*1.3);
+    x.strokeStyle=g;x.globalAlpha=.15+.6*p;x.lineWidth=2+3*p;
+    x.beginPath();x.moveTo(...src);x.bezierCurveTo(W*.45,src[1],W*.55,ey,ex,ey);x.stroke();
+    x.globalAlpha=1;x.fillStyle=g;x.beginPath();x.arc(ex,ey,6+6*p,0,7);x.fill();
+    x.font='500 20px "DM Mono"';x.globalAlpha=.4+.6*p;x.fillText('p '+(0.5+0.49*p).toFixed(2),ex-150,ey-12);
+  });
+  x.globalAlpha=1;x.fillStyle=light?'#6f5620':'#f0dcaa';x.beginPath();x.arc(...src,16,0,7);x.fill();
+  requestAnimationFrame(drawHero);
+}
+let heroStarted=false;if(!heroStarted){heroStarted=true;requestAnimationFrame(drawHero)}
+
+/* ---------- primitive bars ---------- */
+const barObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.barfill').forEach(b=>b.style.width=b.dataset.w);barObs.unobserve(e.target)}}),{threshold:.4});
+document.querySelectorAll('[data-bars]').forEach(el=>{
+  el.innerHTML=el.dataset.bars.split(',').map(s=>{const[k,v]=s.split(':');return `<div class="barrow"><span>${k}</span><div class="bartrack"><div class="barfill" style="width:0" data-w="${v*100}%"></div></div><span>${(+v).toFixed(2)}</span></div>`}).join('');
+  barObs.observe(el);
+});
+
+/* ---------- race ---------- */
+const llmText='Sure! Let me analyse this request. The customer says they lost their card and noticed a charge they don\'t recognise, which suggests the intent is card_lost. Given the unknown charge, urgency should be high. Escalation does not seem necessary yet. ```json {"intent":"card_lost","urgency":"high","escalate":false} ```';
+const toks=llmText.match(/\S+\s*/g);
+let racing=false;
+document.getElementById('raceBtn').onclick=()=>{
+  if(racing)return;racing=true;const btn=document.getElementById('raceBtn');btn.disabled=true;
+  const LLM=2266,JEV=175,SLOW=2.2; // slow-mo factor so you can see it
+  const lt=document.getElementById('llmTokens'),tl=document.getElementById('tLLM'),tj=document.getElementById('tJev');
+  const pills=[...document.querySelectorAll('#jevOut .pill')];pills.forEach(p=>p.classList.remove('on'));
+  lt.innerHTML='';const t0=performance.now();let jevDone=false;
+  function step(now){
+    const el=(now-t0)/SLOW;
+    const n=Math.min(toks.length,Math.floor(el/LLM*toks.length));
+    lt.innerHTML=toks.slice(0,n).join('')+(n<toks.length?'<span class="cur">&nbsp;</span>':'');
+    tl.textContent=Math.min(LLM,Math.round(el)).toLocaleString()+' ms';
+    if(!jevDone){tj.textContent=Math.min(JEV,Math.round(el))+' ms';if(el>=JEV){jevDone=true;pills.forEach((p,i)=>setTimeout(()=>p.classList.add('on'),i*60))}}
+    if(el<LLM)requestAnimationFrame(step);else{tl.textContent=LLM.toLocaleString()+' ms · then parse';racing=false;btn.disabled=false;btn.textContent='↻ Race again'}
+  }
+  requestAnimationFrame(step);
+};
+
+/* ---------- gate ---------- */
+const CMDS=[
+ {c:'git status',p:.99,risky:false},{c:'ls -la src/',p:.99,risky:false},{c:'cat package.json',p:.98,risky:false},
+ {c:'grep -r "TODO" .',p:.97,risky:false},{c:'npm test',p:.9,risky:false},{c:'git diff HEAD~1',p:.96,risky:false},
+ {c:'npm install lodash',p:.41,risky:true},{c:'git push --force',p:.03,risky:true},{c:'rm -rf dist/',p:.12,risky:true},
+ {c:'sed -i "s/v1/v2/" config.yml',p:.22,risky:true},{c:'curl … | sh',p:.18,risky:true},{c:'find . -name "*.log"',p:.93,risky:false},
+ {c:'npx prisma migrate reset',p:.06,risky:true},{c:'cp .env .env.bak',p:.72,risky:true}
+];
+function renderGate(){
+  const th=+document.getElementById('th').value;document.getElementById('thVal').textContent=th.toFixed(2);
+  let a=0,e=0,r=0;
+  document.getElementById('decList').innerHTML=CMDS.map(d=>{
+    const ok=d.p>=th;ok?a++:e++;if(ok&&d.risky)r++;
+    return `<div class="dec"><code>${d.c}</code><span class="p">p ${d.p.toFixed(2)}</span><span class="verdict ${ok?'v-auto':'v-esc'}">${ok?'auto':'escalate'}</span></div>`;
+  }).join('');
+  document.getElementById('gAuto').textContent=a;document.getElementById('gEsc').textContent=e;document.getElementById('gRisk').textContent=r;
+}
+document.getElementById('th').oninput=renderGate;renderGate();
+
+/* ---------- router ---------- */
+const REQS=[
+ {k:'Model routing',q:'"Rename this variable across the file."',score:'trivial · p 0.88',to:0,why:'Low difficulty → fast, cheap model. ModelRouterMiddleware does exactly this per request.'},
+ {k:'Model routing',q:'"Refactor our auth module to support SSO and keep tests green."',score:'hard · p 0.79',to:1,why:'High difficulty → strong model. jev-router makes this call every turn in Claude Code / Codex.'},
+ {k:'Skill selection',q:'"Turn these meeting notes into a Gantt chart."',score:'skill = gantt-builder · p 0.83',to:1,why:'Choice over a large skill catalog picks at most one skill, then the LLM runs with it.'},
+ {k:'Typed function calling',q:'"Sell half my Tata Motors position at market."',score:'fn = place_order(side=sell, type=market) · p 0.93',to:2,why:'Function name and closed-set arguments above threshold → deterministic code executes. Below it, ask the user.'},
+ {k:'Ticket triage',q:'"Third time asking — I was double-charged and nobody replies!!"',score:'billing · frustration high · urgency high',to:3,why:'One call returns department, frustration and urgency. High frustration + urgency → a human.'}
+];
+const NODES=[{n:'Fast model',y:40},{n:'Strong LLM',y:110},{n:'Code / API',y:180},{n:'Human',y:250}];
+function drawFlow(sel){
+  const s=document.getElementById('flowSvg');
+  const gold='var(--gold)',line='var(--line2)';
+  let h=`<rect x="10" y="118" width="110" height="64" rx="12" fill="var(--bg2)" stroke="${gold}"/>
+  <text x="65" y="146" text-anchor="middle" fill="var(--gold2)" font-family="Cinzel" font-size="15" font-weight="700">JEV</text>
+  <text x="65" y="166" text-anchor="middle" fill="var(--ink2)" font-family="DM Mono, monospace" font-size="10">1 call · ~175ms</text>`;
+  NODES.forEach((d,i)=>{
+    const on=sel!=null&&REQS[sel].to===i;
+    h+=`<path d="M120 150 C 200 150, 220 ${d.y+15}, 290 ${d.y+15}" fill="none" stroke="${on?gold:line}" stroke-width="${on?3:1.5}" ${on?'':'stroke-dasharray="4 4"'}/>
+    <rect x="290" y="${d.y}" width="140" height="30" rx="8" fill="${on?'var(--goldDim)':'var(--bg2)'}" stroke="${on?gold:line}"/>
+    <text x="360" y="${d.y+20}" text-anchor="middle" fill="${on?'var(--gold2)':'var(--ink2)'}" font-family="DM Mono, monospace" font-size="12">${d.n}</text>`;
+  });
+  s.innerHTML=h;
+}
+document.getElementById('reqs').innerHTML=REQS.map((r,i)=>`<button class="req" data-i="${i}"><small>${r.k}</small>${r.q}</button>`).join('');
+document.querySelectorAll('.req').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.req').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');
+  const r=REQS[b.dataset.i];drawFlow(+b.dataset.i);
+  document.getElementById('flowRes').innerHTML=`<span class="mono" style="color:var(--gold2)">${r.score}</span><br>${r.why}`;
+});
+drawFlow(null);
+
+/* ---------- atlas ---------- */
+let cat='all';
+const tabs=document.getElementById('tabs');
+tabs.innerHTML=`<button class="tab on" data-c="all">All 20</button>`+CATS.map(c=>`<button class="tab" data-c="${c.id}">${c.name}</button>`).join('');
+tabs.onclick=e=>{const b=e.target.closest('.tab');if(!b)return;cat=b.dataset.c;tabs.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t===b));renderCases()};
+document.getElementById('q').oninput=renderCases;
+function renderCases(){
+  const q=document.getElementById('q').value.toLowerCase();
+  const el=document.getElementById('cases');
+  el.innerHTML=CASES.map((c,i)=>({...c,i})).filter(c=>(cat==='all'||c.c===cat)&&(!q||(c.t+c.d+c.who+c.m).toLowerCase().includes(q))).map(c=>`
+  <div class="case" tabindex="0">
+    <div class="num">${String(c.i+1).padStart(2,'0')} <span class="cat">· ${CATS.find(k=>k.id===c.c).name}</span></div>
+    <h3>${c.t}</h3><p>${c.d}</p>
+    <span class="metric">${c.m}</span>
+    <div class="more"><div style="color:var(--ink2);margin-bottom:6px">Built by / shipped as: <b style="color:var(--ink)">${c.who}</b></div>
+      <div class="prims">${c.p.map(p=>`<span>${p}</span>`).join('')}</div>
+      <div style="margin-top:8px"><a href="${c.u}" target="_blank" rel="noopener">Open reference ↗</a></div></div>
+  </div>`).join('')||'<p style="color:var(--ink3)">No matches.</p>';
+  el.querySelectorAll('.case').forEach(c=>{const t=()=>c.classList.toggle('open');c.onclick=e=>{if(e.target.tagName!=='A')t()};c.onkeydown=e=>{if(e.key==='Enter')t()}});
+}
+renderCases();
+
+/* ---------- cost ---------- */
+const fmt=v=>'$'+(v>=1000?Math.round(v).toLocaleString():v.toFixed(2));
+function renderCost(){
+  const d=+document.getElementById('dRange').value,s=+document.getElementById('sRange').value/100;
+  document.getElementById('dVal').textContent=d.toLocaleString();document.getElementById('sVal').textContent=Math.round(s*100)+'%';
+  const m=d*30/1000,llm=m*2.42,mix=m*(s*0.11+(1-s)*2.42);
+  document.getElementById('cLLM').textContent=fmt(llm);document.getElementById('cMix').textContent=fmt(mix);
+  document.getElementById('cSave').textContent=fmt(llm-mix)+' / month  ·  '+Math.round((1-mix/llm)*100)+'% lower';
+}
+['dRange','sRange'].forEach(id=>document.getElementById(id).oninput=renderCost);renderCost();
+
+/* ---------- in-page nav (works inside sandboxed viewers) ---------- */
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a[href^="#"]');if(!a)return;
+  e.preventDefault();
+  const id=a.getAttribute('href').slice(1);
+  const t=id?document.getElementById(id):document.body;
+  if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.navlinks a').forEach(l=>l.classList.toggle('act',l===a));
+});
+const navObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)document.querySelectorAll('.navlinks a').forEach(l=>{const on=l.getAttribute('href')==='#'+e.target.id;l.classList.toggle('act',on);if(on)l.scrollIntoView({block:'nearest',inline:'center'})})}),{rootMargin:'-45% 0px -50% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>navObs.observe(s));
+</script>
+</body>
+</html>
