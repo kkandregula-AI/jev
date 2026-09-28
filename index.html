@@ -99,6 +99,69 @@ pre .k{color:var(--gold)} pre .s{color:var(--ok)} pre .n{color:var(--blue)}
 .btn:disabled{opacity:.5;cursor:default}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 
+
+/* race: calls */
+.msg{background:var(--card);border:1px dashed var(--line2);border-radius:var(--r);padding:14px 16px}
+.msg small{display:block;font:500 .66rem 'DM Mono',ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.msg q{font-size:1rem;color:var(--ink);quotes:"\201C" "\201D"}
+.callgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:820px){.callgrid{grid-template-columns:1fr}}
+.callgrid>*{min-width:0}
+.cl{font:500 .64rem 'DM Mono',ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;display:flex;justify-content:space-between;gap:8px}
+.cl b{font-family:inherit;color:var(--ink2);letter-spacing:.12em}
+pre.call{white-space:pre-wrap;word-break:break-word;font-size:.72rem;line-height:1.6;margin:0;transition:border-color .3s,box-shadow .3s}
+pre.call.live{border-color:var(--gold);box-shadow:0 0 0 3px var(--goldDim)}
+pre.call .c{color:var(--ink3)} pre.call .b{color:var(--blue)}
+.parsed{margin-top:10px;opacity:0;transition:opacity .4s}
+.parsed.on{opacity:1}
+.stamp{font:500 .64rem 'DM Mono',ui-monospace,monospace;color:var(--warn);letter-spacing:.08em}
+.codenext{margin-top:12px}
+pre.call .rb{background:var(--goldDim);border-radius:3px;box-shadow:0 0 0 1px rgba(212,183,120,.25)}
+.rubric{background:var(--card);border:1px solid var(--gold);border-radius:var(--r);padding:16px}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:820px){.rgrid{grid-template-columns:1fr}}
+.rgrid>div{background:var(--bg2);border-radius:10px;padding:12px 14px}
+.rgrid b{display:block;font-size:.9rem;color:var(--gold2);margin-bottom:4px}
+.rgrid span{font-size:.84rem;color:var(--ink2);line-height:1.5}
+@media(max-width:480px){pre.call{font-size:.64rem;padding:10px}}
+
+
+/* choose */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:820px){.vs{grid-template-columns:1fr}}
+.vs>*{min-width:0}
+.vcol h3{margin-bottom:10px}
+.vcol.j{border-color:var(--gold)} .vcol.j h3{color:var(--gold2)}
+.vcol.l{border-color:rgba(143,179,230,.5)} .vcol.l h3{color:var(--blue)}
+.vcol ul{list-style:none;display:grid;gap:9px}
+.vcol li{font-size:.88rem;color:var(--ink2);padding-left:16px;position:relative;line-height:1.5}
+.vcol li::before{content:"";position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:2px;background:currentColor;opacity:.6}
+.vcol.j li::before{background:var(--gold);transform:rotate(45deg)} .vcol.l li::before{background:var(--blue)}
+.vcol li b{color:var(--ink);font-weight:600}
+.hybrid{margin-top:14px}
+.hybrid p{font-size:.88rem;color:var(--ink2);margin-top:12px}
+.hflow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hflow i{font-style:normal;color:var(--ink3)}
+.hsplit{display:grid;gap:6px}
+.hn{font:500 .76rem 'DM Mono',ui-monospace,monospace;padding:7px 11px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);white-space:nowrap}
+.hn.j{border-color:var(--gold);color:var(--gold2);background:var(--goldDim)}
+.hn.ok{border-color:rgba(127,199,154,.5);color:var(--ok)}
+.hn.l{border-color:rgba(143,179,230,.5);color:var(--blue)}
+.quiz{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:820px){.quiz{grid-template-columns:1fr}}
+.quiz>*{min-width:0}
+.qz{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;transition:border-color .3s}
+.qz .qt{font-size:.94rem;margin-bottom:10px}
+.qz .qt small{display:block;font:500 .64rem 'DM Mono',ui-monospace,monospace;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.qbtns{display:flex;gap:6px}
+.qb{flex:1;font:500 .76rem 'DM Mono',ui-monospace,monospace;padding:8px 6px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);color:var(--ink2);cursor:pointer}
+.qb:disabled{cursor:default}
+.qb.right{border-color:var(--ok);color:var(--ok);background:rgba(127,199,154,.12)}
+.qb.wrong{border-color:var(--bad);color:var(--bad);background:rgba(226,122,107,.1)}
+.qz .why{display:none;font-size:.84rem;color:var(--ink2);margin-top:10px;padding-top:10px;border-top:1px dashed var(--line2);line-height:1.5}
+.qz.done .why{display:block}
+.qz.done.ok{border-color:rgba(127,199,154,.5)}
+.qz.done.no{border-color:rgba(226,122,107,.45)}
 /* gate */
 .gate{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:820px){.gate{grid-template-columns:1fr}}
@@ -209,6 +272,7 @@ footer .attr{font-family:'Cinzel';color:var(--gold);letter-spacing:.05em;font-si
       <a href="#routing">Routing</a>
       <a href="#atlas">20 Uses</a>
       <a href="#cost">Cost</a>
+      <a href="#choose">Jev or LLM</a>
       <a href="#compare">Compare</a>
       <a href="#sources">Sources</a>
     </div>
@@ -244,27 +308,38 @@ footer .attr{font-family:'Cinzel';color:var(--gold);letter-spacing:.05em;font-si
     <div class="grid3">
       <div class="card prim">
         <h3>CHOICE</h3>
-        <p>Pick one option from a list. Returns a probability for every option, plus confidence.</p>
+        <p>Pick one option. You describe each option in <span class="mono">criteria</span>; Jev returns a probability for every option, plus confidence.</p>
 <pre>{<span class="k">"dept"</span>: {<span class="k">"type"</span>:<span class="s">"choice"</span>,
-  <span class="k">"options"</span>:[<span class="s">"billing"</span>,<span class="s">"tech"</span>,<span class="s">"sales"</span>]}}</pre>
+  <span class="k">"instructions"</span>:<span class="s">"Which team handles this?"</span>,
+  <span class="k">"criteria"</span>:{
+    <span class="k">"billing"</span>:<span class="s">"Charges, refunds, invoices"</span>,
+    <span class="k">"tech"</span>:<span class="s">"App errors, login issues"</span>,
+    <span class="k">"sales"</span>:<span class="s">"Plans, upgrades, pricing"</span>}}}</pre>
         <div class="bars" data-bars="billing:0.81,tech:0.14,sales:0.05"></div>
       </div>
       <div class="card prim">
         <h3>SCORE</h3>
-        <p>Rate the state on ordered rubric levels. Returns probabilities per level, plus confidence.</p>
+        <p>Rate the state on an ordered rubric. Each level in <span class="mono">criteria</span> is described in words; Jev returns a probability per level and a score between them.</p>
 <pre>{<span class="k">"difficulty"</span>: {<span class="k">"type"</span>:<span class="s">"score"</span>,
-  <span class="k">"levels"</span>:[<span class="s">"trivial"</span>,<span class="s">"medium"</span>,<span class="s">"hard"</span>]}}</pre>
-        <div class="bars" data-bars="trivial:0.08,medium:0.27,hard:0.65"></div>
+  <span class="k">"instructions"</span>:<span class="s">"How hard is this task?"</span>,
+  <span class="k">"criteria"</span>:[
+    <span class="s">"One-line change, no reasoning"</span>,
+    <span class="s">"Several files, clear approach"</span>,
+    <span class="s">"Design decisions, many unknowns"</span>]}}</pre>
+        <div class="bars" data-bars="level 0:0.08,level 1:0.27,level 2:0.65"></div>
       </div>
       <div class="card prim">
         <h3>NOUL</h3>
-        <p>Probability (0 to 1) that a statement about the state is true.</p>
+        <p>A yes/no question. Returns one number from 0 to 1: the probability the answer is yes. Optional <span class="mono">criteria</span> define what counts as yes and no.</p>
 <pre>{<span class="k">"irreversible"</span>: {<span class="k">"type"</span>:<span class="s">"noul"</span>,
-  <span class="k">"statement"</span>:<span class="s">"This command destroys data"</span>}}</pre>
-        <div class="bars" data-bars="true:0.97,false:0.03"></div>
+  <span class="k">"instructions"</span>:<span class="s">"Would this command destroy data?"</span>,
+  <span class="k">"criteria"</span>:{
+    <span class="k">"true"</span>:<span class="s">"Deletes, overwrites or resets data"</span>,
+    <span class="k">"false"</span>:<span class="s">"Only reads, lists or inspects"</span>}}}</pre>
+        <div class="bars" data-bars="noul:0.97"></div>
       </div>
     </div>
-    <div class="note">Trained with <b>RLCD</b> (Reinforcement Learning for Calibrated Decisions), so higher confidence should track higher accuracy. The payoff: <b>your code</b>, not the model, decides what happens at each probability. <span class="tag sim" style="margin-left:6px"><i></i>Illustrative bars</span></div>
+    <div class="note"><b>The rubric is what you write:</b> <span class="mono">instructions</span> (the question) and <span class="mono">criteria</span> (what each answer means). Jev reads the state against them. Trained with <b>RLCD</b> (Reinforcement Learning for Calibrated Decisions), so higher confidence should track higher accuracy. The payoff: <b>your code</b>, not the model, decides what happens at each probability. <span class="tag sim" style="margin-left:6px"><i></i>Illustrative bars</span></div>
   </div>
 </section>
 
@@ -272,21 +347,130 @@ footer .attr{font-family:'Cinzel';color:var(--gold);letter-spacing:.05em;font-si
   <div class="wrap">
     <div class="eyebrow">02 · One pass vs token stream</div>
     <h2>Why it's fast</h2>
-    <p class="lede">An LLM has to generate its answer token by token, then you parse it. Jev returns the typed decision in one forward pass. Timings below replay OpenRouter's measured medians on its Banking77 test.</p>
+    <p class="lede">The same customer message goes to both. The LLM has to be <i>told</i> the format in its prompt, writes its answer token by token, and you parse the JSON out of the text. Jev gets the message as <span class="mono">state</span> plus typed questions whose <span class="mono">criteria</span> are the rubric (highlighted), and returns every answer with probabilities in one pass. Timings replay OpenRouter's measured medians on its Banking77 test.</p>
     <div class="race">
+      <div class="msg"><small>The input · a customer support message</small><q>I lost my card yesterday and now there's a ₹4,500 charge I don't recognise. Please help!</q></div>
+
       <div class="lane">
         <div class="lanehead"><b>Generative LLM</b><span class="row"><span class="tag">2,266 ms median</span><span class="timer" id="tLLM">0 ms</span></span></div>
-        <div class="tokens" id="llmTokens"></div>
-      </div>
-      <div class="lane">
-        <div class="lanehead"><b>Jev · System One</b><span class="row"><span class="tag">175 ms median</span><span class="timer" id="tJev">0 ms</span></span></div>
-        <div class="jevout" id="jevOut">
-          <span class="pill">intent = card_lost · p 0.91</span>
-          <span class="pill">urgency = high · p 0.84</span>
-          <span class="pill">escalate? p 0.12</span>
+        <div class="callgrid">
+          <div>
+            <div class="cl"><b>① Call sent</b><span>chat completion</span></div>
+<pre class="call" id="reqLLM"><span class="c">POST /v1/chat/completions</span>
+{
+  <span class="k">"model"</span>: <span class="s">"claude-opus-5"</span>,
+  <span class="k">"messages"</span>: [
+    { <span class="k">"role"</span>: <span class="s">"system"</span>,
+      <span class="k">"content"</span>: <span class="s">"You are a bank support classifier.
+Read the message and reply with JSON only:
+intent: one of the 77 Banking77 labels
+  (lost_or_stolen_card, compromised_card,
+   card_payment_not_recognised, …),
+urgency: low | medium | high,
+escalate: true | false"</span> },
+    { <span class="k">"role"</span>: <span class="s">"user"</span>,
+      <span class="k">"content"</span>: <span class="s">"I lost my card yesterday and now
+there's a ₹4,500 charge I don't recognise.
+Please help!"</span> }
+  ]
+}</pre>
+          </div>
+          <div>
+            <div class="cl"><b>② What comes back</b><span>free text, token by token</span></div>
+            <div class="tokens" id="llmTokens"><span style="color:var(--ink3)">Press ▶ Run the race</span></div>
+            <div class="parsed" id="llmParsed">
+              <div class="cl" style="margin-top:6px"><b>③ Your code parses it</b><span>no probabilities</span></div>
+<pre class="call"><span class="c">json.loads(extract_json(text))</span>
+{ <span class="k">"intent"</span>: <span class="s">"lost_or_stolen_card"</span>,
+  <span class="k">"urgency"</span>: <span class="s">"high"</span>,
+  <span class="k">"escalate"</span>: <span class="b">false</span> }
+<span class="c">// how sure was it? unknown.
+// wrong label or bad JSON? retry.</span></pre>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row"><button class="btn" id="raceBtn">▶ Run the race</button><span class="tag sim"><i></i>Simulated replay of real medians</span></div>
+
+      <div class="lane">
+        <div class="lanehead"><b>Jev · System One</b><span class="row"><span class="tag">175 ms median</span><span class="timer" id="tJev">0 ms</span></span></div>
+        <div class="callgrid">
+          <div>
+            <div class="cl"><b>① Call sent</b><span>state + typed questions</span></div>
+<pre class="call" id="reqJev"><span class="c">POST /v1/systemone</span>
+{
+  <span class="k">"model"</span>: <span class="s">"jev-latest"</span>,
+  <span class="k">"state"</span>: <span class="s">"I lost my card yesterday and now
+there's a ₹4,500 charge I don't recognise.
+Please help!"</span>,
+  <span class="k">"questions"</span>: {
+    <span class="k">"intent"</span>: { <span class="k">"type"</span>: <span class="s">"choice"</span>,
+      <span class="k">"instructions"</span>: <span class="rb"><span class="s">"What is the customer asking about?"</span></span>,
+      <span class="k">"criteria"</span>: <span class="rb">{
+        <span class="k">"lost_or_stolen_card"</span>: <span class="s">"Card is lost, stolen or missing"</span>,
+        <span class="k">"card_payment_not_recognised"</span>: <span class="s">"A card payment the customer didn't make"</span>,
+        <span class="k">"compromised_card"</span>: <span class="s">"Card details may be in someone else's hands"</span>,
+        <span class="c">… one line for each Banking77 intent</span> }</span> },
+    <span class="k">"urgency"</span>: { <span class="k">"type"</span>: <span class="s">"score"</span>,
+      <span class="k">"instructions"</span>: <span class="rb"><span class="s">"How fast must the bank act?"</span></span>,
+      <span class="k">"criteria"</span>: <span class="rb">[
+        <span class="s">"Routine question, no money at risk"</span>,
+        <span class="s">"Needs action today, small risk"</span>,
+        <span class="s">"Money at risk right now, act immediately"</span> ]</span> },
+    <span class="k">"escalate"</span>: { <span class="k">"type"</span>: <span class="s">"noul"</span>,
+      <span class="k">"instructions"</span>: <span class="rb"><span class="s">"Does this customer need a human agent now?"</span></span>,
+      <span class="k">"criteria"</span>: <span class="rb">{
+        <span class="k">"true"</span>: <span class="s">"Asks for a person, is angry, or needs judgement"</span>,
+        <span class="k">"false"</span>: <span class="s">"Standard self-service steps can resolve it"</span> }</span> }
+  }
+}</pre>
+          </div>
+          <div>
+            <div class="cl"><b>② What comes back</b><span>typed, in one pass</span></div>
+            <div class="jevout" id="jevOut">
+              <span class="pill">intent = lost_or_stolen_card · p 0.91</span>
+              <span class="pill">urgency = level 2 · p 0.84</span>
+              <span class="pill">escalate · noul 0.12</span>
+            </div>
+            <div class="parsed" id="jevJson">
+<pre class="call">{
+  <span class="k">"model"</span>: <span class="s">"jev-1.13.0"</span>,
+  <span class="k">"answers"</span>: {
+    <span class="k">"intent"</span>: { <span class="k">"type"</span>: <span class="s">"choice"</span>,
+      <span class="k">"choice"</span>: <span class="s">"lost_or_stolen_card"</span>,
+      <span class="k">"confidence"</span>: <span class="n">0.82</span>,
+      <span class="k">"probabilities"</span>: {
+        <span class="s">"lost_or_stolen_card"</span>: <span class="n">0.91</span>,
+        <span class="s">"card_payment_not_recognised"</span>: <span class="n">0.06</span>,
+        <span class="s">"compromised_card"</span>: <span class="n">0.02</span>, <span class="c">…</span> } },
+    <span class="k">"urgency"</span>: { <span class="k">"type"</span>: <span class="s">"score"</span>,
+      <span class="k">"score"</span>: <span class="n">1.81</span>,
+      <span class="k">"confidence"</span>: <span class="n">0.71</span>,
+      <span class="k">"probabilities"</span>: { <span class="s">"0"</span>: <span class="n">0.03</span>, <span class="s">"1"</span>: <span class="n">0.13</span>, <span class="s">"2"</span>: <span class="n">0.84</span> } },
+    <span class="k">"escalate"</span>: { <span class="k">"type"</span>: <span class="s">"noul"</span>,
+      <span class="k">"noul"</span>: <span class="n">0.12</span> }
+  }
+}
+<span class="c">// score = 0×0.03 + 1×0.13 + 2×0.84 = 1.81</span></pre>
+              <div class="cl codenext"><b>③ Your code decides</b><span>thresholds, not parsing</span></div>
+<pre class="call">a = r[<span class="s">"answers"</span>]
+<span class="k">if</span> a.intent.confidence >= <span class="n">0.80</span>: route_to(TEAM[a.intent.choice])
+<span class="k">else</span>: ask_llm_or_human()
+<span class="k">if</span> a.urgency.score >= <span class="n">1.5</span>: block_card()
+<span class="k">if</span> a.escalate.noul >= <span class="n">0.50</span>: hand_to_human()
+<span class="k">else</span>: send_self_service_steps()</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="rubric">
+        <div class="cl"><b>So what decides Jev's answer?</b><span>three layers</span></div>
+        <div class="rgrid">
+          <div><b>1 · Your question rubric</b><span>The highlighted <span class="mono">instructions</span> and <span class="mono">criteria</span>. Jev reads the message against each description you wrote, so vague criteria give vague answers. TypeSafe advises concrete, situational wording (“money at risk right now”) over abstract degrees (“high”).</span></div>
+          <div><b>2 · Jev's trained judgement</b><span>How strongly the message matches each description comes from what the model learned in training. TypeSafe trains it with RLCD so confidence tracks accuracy: answers given at 0.9 should be right about 9 times in 10. That is what makes the numbers usable as thresholds.</span></div>
+          <div><b>3 · Your action rubric</b><span>Jev never acts. The thresholds in ③ are yours: pick them by testing on your own past tickets, then tune.</span></div>
+        </div>
+      </div>
+      <div class="row"><button class="btn" id="raceBtn">▶ Run the race</button><span class="tag sim"><i></i>Simulated replay of real medians</span><span class="tag sim"><i></i>Fields follow TypeSafe docs · probabilities illustrative</span></div>
     </div>
   </div>
 </section>
@@ -363,9 +547,51 @@ footer .attr{font-family:'Cinzel';color:var(--gold);letter-spacing:.05em;font-si
   </div>
 </section>
 
+<section id="choose">
+  <div class="wrap">
+    <div class="eyebrow">07 · Choosing</div>
+    <h2>Jev or LLM?</h2>
+    <p class="lede">The short rule: if the answer is <b>a pick from a list you already know</b>, ask Jev. If the answer has to be <b>written or reasoned out</b>, ask an LLM. Most real agents use both.</p>
+    <div class="vs">
+      <div class="card vcol j">
+        <h3>Use Jev when…</h3>
+        <ul>
+          <li><b>The answers are fixed.</b> A category, yes/no, a level on a scale, which model or tool.</li>
+          <li><b>It happens often.</b> Thousands of times a day, so ~13× speed and ~1/22 cost add up.</li>
+          <li><b>Something is waiting.</b> A user in chat, a browser agent between clicks, a check before every command.</li>
+          <li><b>You need to know how sure it is.</b> Calibrated probabilities let code auto-act above a threshold.</li>
+          <li><b>Code acts on it directly.</b> No parsing, no broken JSON, no retries.</li>
+        </ul>
+      </div>
+      <div class="card vcol l">
+        <h3>Use an LLM when…</h3>
+        <ul>
+          <li><b>The output is text.</b> A reply, a summary, code, a plan, an email.</li>
+          <li><b>It needs multi-step reasoning.</b> Working out why, weighing trade-offs, planning the next move.</li>
+          <li><b>The categories aren't known yet.</b> “What are people complaining about?” rather than “which of these 12?”</li>
+          <li><b>It's rare or one-off.</b> Writing and tuning criteria isn't worth it.</li>
+          <li><b>Accuracy beats speed and cost.</b> On Banking77, Claude Opus 5 scored 84.4% vs Jev's 81.0%.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card hybrid">
+      <div class="cl"><b>The pattern most teams land on</b><span>confidence-gated fallback</span></div>
+      <div class="hflow">
+        <span class="hn j">Request</span><i>→</i><span class="hn j">Jev decides</span><i>→</i>
+        <span class="hsplit"><span class="hn ok">confident → act</span><span class="hn l">unsure → LLM or human</span></span>
+      </div>
+      <p>Jev's speed and cost on most traffic, the LLM's accuracy on the hard cases. Set the threshold by testing on your own past data.</p>
+    </div>
+
+    <h3 style="margin:30px 0 6px">Try it: sort these decisions</h3>
+    <p style="color:var(--ink2);font-size:.92rem;margin-bottom:14px">Tap Jev, LLM or Both for each one. <span class="mono" style="color:var(--gold2)" id="qScore">0 / 9</span></p>
+    <div class="quiz" id="quiz"></div>
+  </div>
+</section>
+
 <section id="compare">
   <div class="wrap">
-    <div class="eyebrow">07 · Landscape</div>
+    <div class="eyebrow">08 · Landscape</div>
     <h2>Jev vs closest alternatives</h2>
     <p class="lede">Open-model numbers are self-reported on each project's own harness — directional only. OpenRouter's Banking77 test is the cleanest comparison.</p>
     <div class="tablewrap">
@@ -388,7 +614,7 @@ footer .attr{font-family:'Cinzel';color:var(--gold);letter-spacing:.05em;font-si
 
 <section id="caveats">
   <div class="wrap">
-    <div class="eyebrow">08 · Read before you ship</div>
+    <div class="eyebrow">09 · Read before you ship</div>
     <h2>Honest limits</h2>
     <div class="cav" style="margin-top:18px">
       <div class="card"><h3>Schema-safe ≠ correct</h3><p>Typed output removes parse errors, not wrong answers. Calibrate thresholds on your own traffic before trusting auto-actions.</p></div>
@@ -401,7 +627,7 @@ footer .attr{font-family:'Cinzel';color:var(--gold);letter-spacing:.05em;font-si
 
 <section id="sources">
   <div class="wrap">
-    <div class="eyebrow">09 · Resource reference</div>
+    <div class="eyebrow">10 · Resource reference</div>
     <h2>Sources</h2>
     <div class="src" style="margin-top:18px">
       <a class="featured" href="https://www.marktechpost.com/2026/09/27/20-agentic-use-cases-of-typesafe-ais-jev/" target="_blank" rel="noopener"><small>News · MarkTechPost · 27 Sep 2026</small>20 Agentic Use Cases of TypeSafe AI's Jev — Asif Razzaq</a>
@@ -527,22 +753,25 @@ document.querySelectorAll('[data-bars]').forEach(el=>{
 });
 
 /* ---------- race ---------- */
-const llmText='Sure! Let me analyse this request. The customer says they lost their card and noticed a charge they don\'t recognise, which suggests the intent is card_lost. Given the unknown charge, urgency should be high. Escalation does not seem necessary yet. ```json {"intent":"card_lost","urgency":"high","escalate":false} ```';
+const llmText='Sure! Let me look at this request. The customer says they lost their card yesterday and also noticed a charge they don\'t recognise. Both point to a lost card, so the best label is lost_or_stolen_card. Because there is an unknown charge, urgency should be high. It doesn\'t seem to need a human yet. ```json {"intent":"lost_or_stolen_card","urgency":"high","escalate":false} ```';
 const toks=llmText.match(/\S+\s*/g);
 let racing=false;
 document.getElementById('raceBtn').onclick=()=>{
   if(racing)return;racing=true;const btn=document.getElementById('raceBtn');btn.disabled=true;
   const LLM=2266,JEV=175,SLOW=2.2; // slow-mo factor so you can see it
   const lt=document.getElementById('llmTokens'),tl=document.getElementById('tLLM'),tj=document.getElementById('tJev');
+  const rL=document.getElementById('reqLLM'),rJ=document.getElementById('reqJev');
+  const pL=document.getElementById('llmParsed'),pJ=document.getElementById('jevJson');
   const pills=[...document.querySelectorAll('#jevOut .pill')];pills.forEach(p=>p.classList.remove('on'));
+  pL.classList.remove('on');pJ.classList.remove('on');rL.classList.add('live');rJ.classList.add('live');
   lt.innerHTML='';const t0=performance.now();let jevDone=false;
   function step(now){
     const el=(now-t0)/SLOW;
     const n=Math.min(toks.length,Math.floor(el/LLM*toks.length));
     lt.innerHTML=toks.slice(0,n).join('')+(n<toks.length?'<span class="cur">&nbsp;</span>':'');
     tl.textContent=Math.min(LLM,Math.round(el)).toLocaleString()+' ms';
-    if(!jevDone){tj.textContent=Math.min(JEV,Math.round(el))+' ms';if(el>=JEV){jevDone=true;pills.forEach((p,i)=>setTimeout(()=>p.classList.add('on'),i*60))}}
-    if(el<LLM)requestAnimationFrame(step);else{tl.textContent=LLM.toLocaleString()+' ms · then parse';racing=false;btn.disabled=false;btn.textContent='↻ Race again'}
+    if(!jevDone){tj.textContent=Math.min(JEV,Math.round(el))+' ms';if(el>=JEV){jevDone=true;rJ.classList.remove('live');pills.forEach((p,i)=>setTimeout(()=>p.classList.add('on'),i*60));setTimeout(()=>pJ.classList.add('on'),250)}}
+    if(el<LLM)requestAnimationFrame(step);else{tl.textContent=LLM.toLocaleString()+' ms · then parse';rL.classList.remove('live');pL.classList.add('on');racing=false;btn.disabled=false;btn.textContent='↻ Race again'}
   }
   requestAnimationFrame(step);
 };
@@ -629,6 +858,30 @@ function renderCost(){
   document.getElementById('cSave').textContent=fmt(llm-mix)+' / month  ·  '+Math.round((1-mix/llm)*100)+'% lower';
 }
 ['dRange','sRange'].forEach(id=>document.getElementById(id).oninput=renderCost);renderCost();
+
+
+/* ---------- Jev or LLM quiz ---------- */
+const QZ=[
+ {t:'Which of our 12 complaint types is this ticket?',ctx:'Support desk · 8,000 tickets a day',a:'Jev',w:'Fixed list, very high volume, and a probability tells you when to send it to a person. A textbook Choice question.'},
+ {t:'Write a polite reply to an angry customer',ctx:'After the ticket is classified',a:'LLM',w:'The output is written text. Jev never generates text; it only picks, scores or says yes/no.'},
+ {t:'Is this bash command safe to run without asking?',ctx:'Coding agent · before every command',a:'Jev',w:'A yes/no that sits in front of every action, so 2 seconds each would crawl. A Noul with p ≥ 0.95 is exactly what jev-auto-approve does.'},
+ {t:'Summarise this 40-page supplier contract',ctx:'Legal team · a few a week',a:'LLM',w:'Long reading plus written output. Nothing here is a pick from a known list.'},
+ {t:'What new complaint themes appeared this month?',ctx:'Monthly review',a:'LLM',w:'The categories aren\'t known yet; you are discovering them. Once they are, Jev can classify new tickets into them.'},
+ {t:'Send this request to a fast model or a strong one?',ctx:'Every turn of a chat agent',a:'Jev',w:'A Score on difficulty, made on every turn. Spending 2 seconds of a big model to decide whether to use a big model defeats the point.'},
+ {t:'Does this source passage support the claim in our draft?',ctx:'Fact-checking before publishing',a:'Jev',w:'One Choice: supports, contradicts or says nothing. Fast enough to check every citation, not just a sample.'},
+ {t:'Approve a one-off ₹50 lakh credit exception',ctx:'Rare · high stakes',a:'LLM',w:'Rare, high stakes, needs reasoning that can be explained to a reviewer. An LLM drafts the case and a human decides. Jev can pre-screen, but shouldn\'t decide.'},
+ {t:'Route bank tickets, but some are ambiguous',ctx:'Jev confidence ranges from 0.40 to 0.99',a:'Both',w:'The hybrid pattern: act on Jev when confidence is above your threshold, send the unsure ones to an LLM or a person.'}
+];
+let qRight=0,qDone=0;
+document.getElementById('quiz').innerHTML=QZ.map((q,i)=>`<div class="qz" data-i="${i}"><div class="qt"><small>${q.ctx}</small>${q.t}</div><div class="qbtns">${['Jev','LLM','Both'].map(o=>`<button class="qb" data-o="${o}">${o}</button>`).join('')}</div><div class="why"></div></div>`).join('');
+document.querySelectorAll('.qz').forEach(card=>card.querySelectorAll('.qb').forEach(b=>b.onclick=()=>{
+  const q=QZ[card.dataset.i];if(card.classList.contains('done'))return;
+  const ok=b.dataset.o===q.a;card.classList.add('done',ok?'ok':'no');
+  card.querySelectorAll('.qb').forEach(x=>{x.disabled=true;if(x.dataset.o===q.a)x.classList.add('right')});
+  if(!ok)b.classList.add('wrong');
+  card.querySelector('.why').innerHTML=`<b style="color:${ok?'var(--ok)':'var(--bad)'}">${ok?'Right.':'Answer: '+q.a+'.'}</b> ${q.w}`;
+  qDone++;if(ok)qRight++;document.getElementById('qScore').textContent=`${qRight} / ${QZ.length}`+(qDone===QZ.length?' · done':'');
+}));
 
 /* ---------- in-page nav (works inside sandboxed viewers) ---------- */
 document.addEventListener('click',e=>{
