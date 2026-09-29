@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Decision Atlas · Jev</title>
+<title>Jev Decision Atlas</title>
 <meta name="description" content="Interactive explainer: 20 agentic use cases of TypeSafe AI's Jev, a System One decision model.">
 <meta name="theme-color" content="#0a0a0b">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -59,13 +59,19 @@ nav .wrap{display:flex;align-items:center;gap:14px;height:56px}
 
 /* hero */
 .hero{padding:72px 0 56px;position:relative;border-top:none}
-.hero h1{font-size:clamp(2.6rem,9vw,5.4rem);line-height:1;color:var(--gold2);letter-spacing:.06em}
+.hero h1{font-size:clamp(2.4rem,7.5vw,4.4rem);max-width:760px;line-height:1;color:var(--gold2);letter-spacing:.06em}
 .hero .sub{font-family:'Cinzel';font-size:clamp(1rem,2.6vw,1.35rem);color:var(--ink);margin:.6rem 0 1.2rem;letter-spacing:.05em}
 .hero p{color:var(--ink2);max-width:640px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:32px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
 .stat b{display:block;font:500 1.5rem/1.1 'DM Mono',ui-monospace,monospace;color:var(--gold2)}
-.stat span{font-size:.8rem;color:var(--ink2)}
+.stat span{font-size:.8rem;color:var(--ink2);display:block;line-height:1.4;margin-top:4px}
+.stat>small{display:block;font:500 .62rem 'DM Mono',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.stat small.u{font-size:.9rem}
+.statshead{margin-top:36px;display:flex;justify-content:space-between;align-items:baseline;gap:6px 14px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px}
+.statshead b{font-family:'Cinzel',serif;font-size:1.05rem;letter-spacing:.04em;color:var(--ink)}
+.statshead span{font:.72rem 'DM Mono',ui-monospace,monospace;color:var(--ink3)}
+.hero h1 .h1j{color:var(--gold)}
 .heroart{position:absolute;right:0;top:40px;width:360px;height:300px;opacity:.9;pointer-events:none}
 @media(max-width:860px){.heroart{display:none}.stats{grid-template-columns:repeat(2,1fr)}}
 
@@ -264,7 +270,7 @@ footer .attr{font-family:'Cinzel';color:var(--gold);letter-spacing:.05em;font-si
 
 <nav>
   <div class="wrap">
-    <a class="brand" href="#top"><canvas id="logo" width="56" height="56"></canvas><span class="bname">Decision Atlas</span></a>
+    <a class="brand" href="#top"><canvas id="logo" width="56" height="56"></canvas><span class="bname">Jev Decision Atlas</span></a>
     <div class="navlinks">
       <a href="#primitives">Primitives</a>
       <a href="#race">Race</a>
@@ -284,18 +290,19 @@ footer .attr{font-family:'Cinzel';color:var(--gold);letter-spacing:.05em;font-si
   <div class="wrap">
     <canvas class="heroart" id="heroArt" width="720" height="600"></canvas>
     <div class="eyebrow">Krishnamurthy Kandregula Innovation Lab · Explainer</div>
-    <h1>Decision<br>Atlas</h1>
+    <h1><span class="h1j">Jev</span> Decision Atlas</h1>
     <div class="sub">20 agentic use cases of TypeSafe AI’s Jev</div>
     <p>TypeSafe AI's <b>Jev</b> is a <i>System One</i> model. It doesn't chat or write code. You hand it an agent's state and a set of typed questions, and it returns decisions with calibrated probabilities — so the thousands of small judgments inside an agent loop stop costing a full LLM call each.</p>
     <div class="row" style="margin-top:22px">
       <a class="btn" href="#atlas" style="text-decoration:none">Browse the 20 use cases</a>
       <button class="btn ghost install" id="installBtn">Install app</button>
     </div>
+    <div class="statshead"><b>Jev 1.13 at a glance</b><span>Cost model &amp; model features · as listed by TypeSafe, Sep 2026</span></div>
     <div class="stats">
-      <div class="stat"><b>$0.042</b><span>per M input tokens · output free</span></div>
-      <div class="stat"><b>70–500<small style="font-size:.9rem">ms</small></b><span>vendor-stated latency</span></div>
-      <div class="stat"><b>255</b><span>max options in one Choice</span></div>
-      <div class="stat"><b>20</b><span>agentic use cases mapped</span></div>
+      <div class="stat"><small>Cost model</small><b>$0.042</b><span>per million input tokens · output tokens free</span></div>
+      <div class="stat"><small>Latency</small><b>70–500<small class="u">ms</small></b><span>per call, vendor-stated · 175 ms median on OpenRouter</span></div>
+      <div class="stat"><small>Choice size</small><b>255</b><span>max options in one Choice question</span></div>
+      <div class="stat"><small>Question types</small><b>3</b><span>Choice · Score · Noul, answered in one pass</span></div>
     </div>
   </div>
 </header>
@@ -707,7 +714,7 @@ drawIcon(document.getElementById('logo'),56);
   try{
     const c=document.createElement('canvas');drawIcon(c,512);
     const icon=c.toDataURL('image/png');
-    const man={name:'Decision Atlas · 20 Agentic Use Cases of Jev',short_name:'Decision Atlas',start_url:'.',display:'standalone',background_color:'#0a0a0b',theme_color:'#0a0a0b',icons:[{src:icon,sizes:'512x512',type:'image/png',purpose:'any maskable'}]};
+    const man={name:'Jev Decision Atlas · 20 Agentic Use Cases',short_name:'Jev Atlas',start_url:'.',display:'standalone',background_color:'#0a0a0b',theme_color:'#0a0a0b',icons:[{src:icon,sizes:'512x512',type:'image/png',purpose:'any maskable'}]};
     const l=document.createElement('link');l.rel='manifest';
     l.href=URL.createObjectURL(new Blob([JSON.stringify(man)],{type:'application/manifest+json'}));
     document.head.appendChild(l);
